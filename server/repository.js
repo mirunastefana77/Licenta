@@ -37,10 +37,17 @@ const PersonalMedical = sequelize.define("PersonalMedical", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  tip_personal: {
+  email_personal: {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  tip_personal: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      isIn: [["Medic", "Asistent"]],
+    },
+}, 
 }, {
   timestamps: false,
   freezeTableName: true,
@@ -52,6 +59,18 @@ const User = sequelize.define("User", {
     primaryKey: true,
     autoIncrement: true,
   },
+  unitate_invatamant: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  nume_user: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  prenume_user: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   email_user: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -60,6 +79,14 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  tip_user:{
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      isIn: [["Medic", "Asistent"]],
+    },
+  }
+  
 }, {
   timestamps: false,
   freezeTableName: true,
@@ -236,6 +263,19 @@ StocMedicamente.belongsTo(RegistruMedical);
 // }
 
 // CabinetMedical.bulkCreate(CabinetMedicalFaker);
+
+// const PersonalMedicalFaker = [];
+// for (let i = 0; i < 25; i++) {
+//   PersonalMedicalFaker.push({
+//     nume_personal: faker.name.firstName(),
+//     prenume_personal: faker.name.lastName(),
+//     tip_personal: "Medic",
+//     email_personal: faker.internet.email(),
+//     parola_personal: faker.internet.password(),
+//   });
+// }
+
+// PersonalMedical.bulkCreate(PersonalMedicalFaker);
 
 async function init() {
   await sequelize.authenticate();
