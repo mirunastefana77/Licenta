@@ -11,6 +11,7 @@ import {
 import express from "express";
 import { getAllCabinete } from "./service.mjs";
 import { createAccount } from "./service.mjs";
+import { getLogin } from "./service.mjs";
 
 const router = express.Router();
 router.route("/cabinete").get((req, res) => {
@@ -18,6 +19,9 @@ router.route("/cabinete").get((req, res) => {
 });
 router.route("/register").post((req, res) => {
   createAccount(User, PersonalMedical, req, res);
+});
+router.route("/login").post((req, res) => {
+  getLogin(User, req, res);
 });
 
 export default router;
