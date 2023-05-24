@@ -1,0 +1,32 @@
+.mainPage_container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.font-link {
+    font-family: "Inter", sans-serif;
+    font-size: 1.5rem;
+    color: #000;
+    text-decoration: none;
+}
+
+.head_style {
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 20%;
+}
+
+.main-container {
+    display: flex;
+    justify-content: space-between;
+}
+  
+.meniu-container {
+    width: 20%;
+    text-align: center;
+    height: 100vh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+  

@@ -22,10 +22,13 @@ export const Login = () => {
       },
       body: JSON.stringify(item),
     });
-    if(response.status === 201) {
-      alert("Login reusit");
-    }
-    else {
+    if (response.status === 201) {
+      response.json().then((data) => {
+        localStorage.setItem("user", JSON.stringify(data));
+      });
+     
+      navigate("/mainPage", { replace: true });
+    } else {
       alert("Login nereusit");
     }
   }
@@ -33,7 +36,7 @@ export const Login = () => {
     navigate("/register", { replace: true });
   }
   return (
-    <div className = "bg-info">
+    <div className={`${styles["color-background"]} ${styles["font-link"]} bg-info`}>
       <div className={`${styles["form-container"]} text-center`}>
         <Form className="justify-content-center align-items-center text-center">
           <h1>LOGIN</h1>
@@ -57,17 +60,22 @@ export const Login = () => {
               />
             </FloatingLabel>
           </Form.Group>
-          <Form.Group className="mb-2">
-            <Button onClick={handleLogin}>LOGIN</Button>
+          <Form.Group className="mb-2 mt-3 ">
+            <Button onClick={handleLogin} className="btn-info">
+              LOGIN
+            </Button>
           </Form.Group>
           <Form.Group>
-            <Link to="/Register" onClick={handleInregistrare}>
-              {" "}
+            <Link
+              to="/Register"
+              onClick={handleInregistrare}
+              className="link-dark"
+            >
               Nu ai cont, înregistrează-te!
             </Link>
           </Form.Group>
         </Form>
       </div>
-      </div>
+    </div>
   );
 };
