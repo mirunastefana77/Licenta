@@ -13,11 +13,15 @@ export const Register = () => {
   const [prenume, setPrenume] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [cabinete, setCabinete] = useState([]);
   const [rol, setRol] = useState("");
   const navigate = useNavigate();
 
-  let cabinete = [];
-  useEffect(() => async () => {
+  useEffect(() => {
+    fetchCabinete();
+  }, []);
+
+  async function fetchCabinete() {
     let result = await fetch("http://localhost:8088/api/cabinete", {
       method: "GET",
       headers: {
@@ -25,21 +29,11 @@ export const Register = () => {
       },
     });
     if (result.status === 201) {
-      result
-        .json()
-        .then((data) => localStorage.setItem("cabinete", JSON.stringify(data)));
+      result.json().then((data) => setCabinete(data));
     }
-  });
-  cabinete = JSON.parse(localStorage.getItem("cabinete"));
-  function getCabinete() {
-    return cabinete.map((cabinet) => {
-      return <option value={cabinet.id}>{cabinet.unitate_invatamant}</option>;
-    });
   }
-  console.log(getCabinete());
 
   let item = { scoala, nume, prenume, email, password, rol };
-  console.log(item);
   async function handleRegister() {
     let result = await fetch("http://localhost:8088/api/register", {
       method: "POST",
@@ -48,6 +42,7 @@ export const Register = () => {
       },
       body: JSON.stringify(item),
     });
+    console.log(item);
     if (result.status === 201) {
       navigate("/", { replace: true });
     } else {
@@ -59,7 +54,9 @@ export const Register = () => {
     setRol(e);
   };
   return (
-    <div className={`${styles["color-background"]} ${styles["font-link"]} bg-info`}>
+    <div
+      className={`${styles["color-background"]} ${styles["font-link"]} bg-info`}
+    >
       <div className={`${styles["form-container"]}`}>
         <Form className="justify-content-center align-items-center ">
           <Form.Group className="justify-content-center align-items-center text-center mb-3">
@@ -71,11 +68,25 @@ export const Register = () => {
               label="Alege unuitatea de învățământ:"
               className="mb-2"
             >
-              <select id="scoala" name="scoala" className="form-select mb-2" onChange=
-                {(e) => {
+              <select
+                id="scoala"
+                name="scoala"
+                className="form-select mb-2"
+                onChange={(e) => {
                   setScoala(e.target.value);
-                }}>
-                {getCabinete()}
+                  console.log(e.target.value);
+                }}
+              >
+                {cabinete?.map((cabinet) => {
+                  return (
+                    <option
+                      key={cabinet.id_cabinet}
+                      value={cabinet.unitate_invatamant}
+                    >
+                      {cabinet.unitate_invatamant}
+                    </option>
+                  );
+                })}
               </select>
             </FloatingLabel>
             <FloatingLabel label="nume" className="mb-2">

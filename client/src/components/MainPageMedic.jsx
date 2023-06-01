@@ -1,10 +1,14 @@
 import React from "react";
 import { MeniuMedic } from "./MeniuMedic";
 import styles from  "../css/MainPageMedic.module.css";
+import { useEffect } from "react";
+import { useState } from "react";
 
 export const MainPageMedic = () => {
-  let userInfo = JSON.parse(localStorage.getItem("user"));
-  console.log(userInfo);
+  const [userInfo, setUserInfo] = useState({});
+  useEffect(() => {
+  setUserInfo(JSON.parse(localStorage.getItem("user")));
+  }, []);
   return (
     <div className={`${styles["mainPage_container"]} ${styles["font-link"]}`}>
       <div className={`${styles["head_style"]} bg-info `}>

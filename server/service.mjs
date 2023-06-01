@@ -26,7 +26,8 @@ async function createAccount(modelUser, modelPers, req, res) {
             prenume_user: prenume,
             email_user: email,
             parola_user: hash,
-            tip_user: rol
+            tip_user: rol,
+            PersonalMedicalIdPersonalMedical: verify.id_personal_medical
         });
         if(user){
             res.status(201).send(user);

@@ -1,7 +1,11 @@
 {
   "type": "module",
   "scripts": {
-    "back-start": "nodemon server.js"
+    "back-start": "nodemon server.js",
+    "seed-cabinete-medicale": "node ./bin/seed-cabinetMedical.mjs",
+    "seed-personal-medical": "node ./bin/seed-personalMedical.mjs",
+    "seed-elevi": "node ./bin/seed-elevi.mjs",
+    "seed-registru-medical": "node ./bin/seed-registruMedical.mjs"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
