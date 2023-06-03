@@ -5,7 +5,8 @@
     "seed-cabinete-medicale": "node ./bin/seed-cabinetMedical.mjs",
     "seed-personal-medical": "node ./bin/seed-personalMedical.mjs",
     "seed-elevi": "node ./bin/seed-elevi.mjs",
-    "seed-registru-medical": "node ./bin/seed-registruMedical.mjs"
+    "seed-registru-medical": "node ./bin/seed-registruMedical.mjs",
+    "seed-stoc-medicamente": "node ./bin/seed-stocMedicamente.mjs"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",

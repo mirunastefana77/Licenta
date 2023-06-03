@@ -14,12 +14,24 @@ export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cabinete, setCabinete] = useState([]);
+  const [resultUser, setResultUser] = useState([]);
   const [rol, setRol] = useState("");
+  const [idCabinet, setIdCabinet] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchCabinete();
   }, []);
+
+  const validatePassword = () => {
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      alert(
+        "Parola trebuie să conțină cel puțin 8 caractere, cel puțin o literă mare și cel puțin o cifră."
+      );
+      return false;
+    } else return true;
+  };
 
   async function fetchCabinete() {
     let result = await fetch("http://localhost:8088/api/cabinete", {
@@ -32,21 +44,48 @@ export const Register = () => {
       result.json().then((data) => setCabinete(data));
     }
   }
-
   let item = { scoala, nume, prenume, email, password, rol };
-  async function handleRegister() {
-    let result = await fetch("http://localhost:8088/api/register", {
+
+  async function checkRegister() {
+    let result = await fetch("http://localhost:8088/api/checkRegister", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(item),
     });
-    console.log(item);
     if (result.status === 201) {
-      navigate("/", { replace: true });
+      result.json().then((data) => setResultUser(data));
+      return true;
+    } else return false;
+  }
+
+  async function handleRegister() {
+    if ((await checkRegister()) === true) {
+      if (validatePassword()) {
+        if (resultUser.CabinetMedicalIdCabinet === idCabinet) {
+          if (resultUser.tip_personal === item.rol) {
+            let result = await fetch("http://localhost:8088/api/register", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(item),
+            });
+            if (result.status === 201) {
+              navigate("/", { replace: true });
+            } else {
+              alert("Eroare!");
+            }
+          } else {
+            alert("Tipul de cadru medical nu este corect!");
+          }
+        } else {
+          alert("Unitatea de invatamant nu este corecta!");
+        }
+      }
     } else {
-      alert("Eroare la crearea contului");
+      alert("E-mail-ul nu exista!");
     }
   }
 
@@ -74,7 +113,7 @@ export const Register = () => {
                 className="form-select mb-2"
                 onChange={(e) => {
                   setScoala(e.target.value);
-                  console.log(e.target.value);
+                  setIdCabinet(e.target.selectedIndex + 1);
                 }}
               >
                 {cabinete?.map((cabinet) => {

@@ -4,7 +4,6 @@ import styles from "../css/MeniuMedic.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 export const MeniuMedic = () => {
   const [date, setDate] = useState("");
   const navigate = useNavigate();
@@ -38,13 +37,35 @@ export const MeniuMedic = () => {
     navigate("/registruElevi", { replace: true });
   }
 
+  async function handleStocMedicamente() {
+    navigate("/stocMedicamente", { replace: true });
+  }
+
+  async function handleFisaMedicale() {
+    navigate("/fiseMedicale", { replace: true });
+  }
+
+  async function handleDelogare() {
+    // localStorage.removeItem("user");
+    navigate("/", { replace: true });
+  }
+
   return (
     <div className={`${styles["meniuMedicContainer"]} ${styles["font-link"]}`}>
       <h1>Meniu</h1>
-      <Button className="btn-info mb-4" onClick={handleRegistruElevi}>Registru elevi</Button>
-      <Button className="btn-info mb-4">Fișe medicale</Button>
-      <Button className="btn-info mb-4">Stoc medicamente</Button>
+      <Button className="btn-info mb-4" onClick={handleRegistruElevi}>
+        Registru elevi
+      </Button>
+      <Button className="btn-info mb-4" onClick={handleFisaMedicale}>
+        Fișe medicale
+      </Button>
+      <Button className="btn-info mb-4" onClick={handleStocMedicamente}>
+        Stoc medicamente{" "}
+      </Button>
       <Button className="btn-info mb-4">Generare cerere părinți</Button>
+      <Button className="btn-info mb-4" onClick={handleDelogare}>
+        Delogare
+      </Button>
       <h1 className={`${styles["dateContainer"]}`}>{date}</h1>
     </div>
   );

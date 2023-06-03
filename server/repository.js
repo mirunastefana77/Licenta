@@ -116,6 +116,10 @@ const RegistruMedical = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    cnp_elev: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     nume_medicament: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -176,6 +180,10 @@ const FisaMedicala = sequelize.define(
     },
     prenume_elev: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    pdf_fisa_medicala: {
+      type: DataTypes.BLOB,
       allowNull: false,
     },
     vaccinari: {
@@ -265,13 +273,13 @@ PersonalMedical.belongsTo(CabinetMedical);
 PersonalMedical.hasOne(User, { foreignKey: { allowNull: true } });
 User.belongsTo(PersonalMedical);
 
-CabinetMedical.hasOne(RegistruMedical, { foreignKey: { allowNull: true } });
+CabinetMedical.hasMany(RegistruMedical, { foreignKey: { allowNull: true } });
 RegistruMedical.belongsTo(CabinetMedical);
 
-RegistruMedical.hasMany(Elev, { foreignKey: { allowNull: true } });
-Elev.belongsTo(RegistruMedical);
+CabinetMedical.hasMany(Elev, { foreignKey: { allowNull: true } });
+Elev.belongsTo(CabinetMedical);
 
-Elev.hasOne(RegistruMedical, { foreignKey: { allowNull: true } });
+Elev.hasMany(RegistruMedical, { foreignKey: { allowNull: true } });
 RegistruMedical.belongsTo(Elev);
 
 Elev.hasOne(FisaMedicala, { foreignKey: { allowNull: true } });
@@ -283,69 +291,13 @@ ParinteElev.belongsTo(Elev);
 CabinetMedical.hasOne(StocMedicamente, { foreignKey: { allowNull: true } });
 StocMedicamente.belongsTo(CabinetMedical);
 
-RegistruMedical.hasOne(StocMedicamente, { foreignKey: { allowNull: true } });
-StocMedicamente.belongsTo(RegistruMedical);
+// RegistruMedical.hasOne(StocMedicamente, { foreignKey: { allowNull: true } });
+// StocMedicamente.belongsTo(RegistruMedical);
 
-// const CabinetMedicalFaker = []
-// for (let i = 0; i < 10; i++) {
-//   CabinetMedicalFaker.push({
-//     unitate_invatamant: faker.address.streetAddress(),
-//   });
-// }
+// sterge tabela User
+// User.sync({ force: true });
 
-// CabinetMedical.bulkCreate(CabinetMedicalFaker);
-
-// const PersonalMedicalFaker = [];
-// for (let i = 0; i < 25; i++) {
-//   PersonalMedicalFaker.push({
-//     nume_personal: faker.name.firstName(),
-//     prenume_personal: faker.name.lastName(),
-//     tip_personal: "Medic",
-//     email_personal: faker.internet.email(),
-//     parola_personal: faker.internet.password(),
-//     // id_cabinet: faker.datatype.number({min: 1, max: 10}),
-//   });
-// }
-
-// const personal = await PersonalMedical.create({
-//     nume_personal: faker.name.firstName(),
-//     prenume_personal: faker.name.lastName(),
-//     tip_personal: "Asistent",
-//     email_personal: faker.internet.email(),
-//     parola_personal: faker.internet.password(),
-//     CabinetMedicalIdCabinet: 1
-//   });
-
-// populare tabela Elev
-const Elevi = [];
-Elevi.push({
-  nume_elev: faker.name.firstName(),
-  prenume_elev: faker.name.lastName(),
-  cnp: 6010101010101,
-  data_nasterii: faker.date.past(),
-});
-
-// const RegistruMedicalFaker = [];
-// RegistruMedicalFaker.push({
-//   nume_elev: "Nolan",
-//   prenume_elev: "Rowe",
-//   nume_medicament: "Paracetamol",
-//   nr_doza_medicament: 2,
-//   IdCabinet: 5,
-// });
-// await RegistruMedical.create({
-//   nume_elev: "Miruna",
-//   prenume_elev: "Vlad",
-//   nume_medicament: "Paracetamol",
-//   nr_doza_medicament: 2,
-//   CabinetMedicalIdCabinet: 5
-// });
-
-//RegistruMedical.bulkCreate(RegistruMedicalFaker);
-
-//Elev.bulkCreate(Elevi);
-
-// stergere toate inregistrari din tabela Elev
+//FisaMedicala.drop();
 
 async function init() {
   await sequelize.authenticate();
