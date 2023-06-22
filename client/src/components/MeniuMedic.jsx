@@ -52,7 +52,6 @@ export const MeniuMedic = () => {
 
   return (
     <div className={`${styles["meniuMedicContainer"]} ${styles["font-link"]}`}>
-      <h1>Meniu</h1>
       <Button className="btn-info mb-4" onClick={handleRegistruElevi}>
         Registru elevi
       </Button>
@@ -62,11 +61,10 @@ export const MeniuMedic = () => {
       <Button className="btn-info mb-4" onClick={handleStocMedicamente}>
         Stoc medicamente{" "}
       </Button>
-      <Button className="btn-info mb-4">Generare cerere părinți</Button>
       <Button className="btn-info mb-4" onClick={handleDelogare}>
         Delogare
       </Button>
-      <h1 className={`${styles["dateContainer"]}`}>{date}</h1>
+      {/* <h1 className={`${styles["dateContainer"]}`}>{date}</h1> */}
     </div>
   );
 };

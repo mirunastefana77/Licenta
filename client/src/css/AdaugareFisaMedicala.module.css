@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   display: flex;
+  flex-direction: column;
 }
 
 .font-link {
@@ -17,9 +18,98 @@
   font-family: "Inter", sans-serif;
   width: 35%;
   height: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
+  margin-bottom: 10%;
   color: #000;
   padding: 20px;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.9) 0px 0px 10px 0px;
   background-color: #fff;
+}
+
+.preview-shadow {
+  width: 35%;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  margin: 5% auto;
+  background-color: #fff;
+}
+
+.preview-container {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  padding: 50px;
+  font-size: 16px;
+  font-family: "Times New Roman", Times, serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 210mm;
+  height: 297mm;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 50px;
+  font-size: 16px;
+  font-family: "Times New Roman", Times, serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview .doctor-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.preview .doctor-info p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.preview .doctor-info .doctor-name {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.preview h1 {
+  text-align: center;
+}
+
+#cerere {
+  width: 80%;
+  margin: 0 auto;
+}
+
+#elevul {
+  margin-top: 50px;
+  text-align: justify;
+}
+
+#date {
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+#cadru-medical {
+  margin-top: 50px;
+  margin-left: 500px;
+}
+
+#puncte1 {
+  margin-top: 50px;
+  margin-left: 500px;
 }

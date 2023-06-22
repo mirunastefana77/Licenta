@@ -1,4 +1,17 @@
 import bcrypt from "bcrypt";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { Op } from "sequelize";
+
+const accessKeyIdRoot = "";
+const secretAccessKeyRoot = "";
+
+const client = new S3Client({
+  region: "eu-central-1",
+  credentials: {
+    accessKeyId: accessKeyIdRoot,
+    secretAccessKey: secretAccessKeyRoot,
+  },
+});
 
 async function getAllCabinete(model, req, res) {
   const cabinete = await model.findAll();
@@ -185,6 +198,78 @@ async function getElevi(model, req, res) {
   }
 }
 
+async function getFisaMedicala(modelFisa, modelElev, req, res) {
+  console.log(req.body.CNP);
+  const elev = await modelElev.findOne({
+    where: {
+      cnp: req.body.CNP,
+    },
+  });
+  if (elev) {
+    const uploadResult = await client.send(
+      new PutObjectCommand({
+        Bucket: "fisamedicalalicenta",
+        Key: `pdf/${req.body.pdfNume}`,
+        Body: req.body.pdfBase64,
+        ACL: "public-read",
+        ContentType: "application/pdf",
+      })
+    );
+    if (uploadResult) {
+      const pdfUrl = `https://fisamedicalalicenta.s3.eu-central-1.amazonaws.com/pdf/${req.body.pdfNume}`;
+      const fisa = await modelFisa.create({
+        nume_elev: req.body.nume,
+        prenume_elev: req.body.prenume,
+        pdf_fisa_medicala: pdfUrl,
+        vaccinari: req.body.vaccinari,
+        boli: req.body.boli,
+        alergii: req.body.alergii,
+        tratamente: req.body.tratamente,
+        unitate_invatamant: req.body.unitate_invatamant,
+        ElevIdElev: elev.id_elev,
+      });
+      if (fisa) {
+        res.status(201).send(fisa);
+      } else {
+        res.status(404).send("Not found fisa");
+      }
+    } else {
+      res.status(404).send("Not found pdf");
+    }
+  } else {
+    res.status(404).send("Not found elev");
+  }
+}
+
+async function getFiseMedicale(model, req, res) {
+  const fise = await model.findAll({
+    where: {
+      unitate_invatamant: req.body.unitate_invatamant,
+    },
+  });
+  console.log(fise);
+  if (fise) {
+    res.status(201).send(fise);
+  } else {
+    res.status(404).send("Not found");
+  }
+}
+
+async function getParinteElev(modelParinte, modelElev, req, res) {
+  const parinti = await modelParinte.findAll({
+    where: {
+      ElevIdElev: {
+        [Op.in]: req.body.id_elevi,
+      },
+    },
+  });
+  if (parinti) {
+    res.status(201).send(parinti);
+  } else {
+    res.status(404).send("Not found parinti");
+  }
+}
+
 export {
   getAllCabinete,
   createAccount,
@@ -197,4 +282,7 @@ export {
   getElevAdaugat,
   getStocMedicamente,
   getElevi,
+  getFisaMedicala,
+  getFiseMedicale,
+  getParinteElev,
 };

@@ -8,6 +8,7 @@ import {
   ParinteElev,
   StocMedicamente,
 } from "./repository.js";
+
 import express from "express";
 import { getAllCabinete } from "./service.mjs";
 import { createAccount } from "./service.mjs";
@@ -20,6 +21,9 @@ import { adaugaElev } from "./service.mjs";
 import { getElevAdaugat } from "./service.mjs";
 import { getStocMedicamente } from "./service.mjs";
 import { getElevi } from "./service.mjs";
+import { getFisaMedicala } from "./service.mjs";
+import { getFiseMedicale } from "./service.mjs";
+import { getParinteElev } from "./service.mjs";
 
 const router = express.Router();
 router.route("/cabinete").get((req, res) => {
@@ -54,6 +58,15 @@ router.route("/getStocMedicamente").post((req, res) => {
 });
 router.route("/getElevi").post((req, res) => {
   getElevi(Elev, req, res);
+});
+router.route("/getFisaMedicala").post((req, res) => {
+  getFisaMedicala(FisaMedicala, Elev, req, res);
+});
+router.route("/getFiseMedicale").post((req, res) => {
+  getFiseMedicale(FisaMedicala, req, res);
+});
+router.route("/getParinteElev").post((req, res) => {
+  getParinteElev(ParinteElev, Elev, req, res);
 });
 
 export default router;

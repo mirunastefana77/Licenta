@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes } from "sequelize";
-import { faker } from "@faker-js/faker";
+
 const sequelize = new Sequelize({
   dialect: "sqlite",
   storage: "./database.db",
@@ -43,6 +43,10 @@ const PersonalMedical = sequelize.define(
     email_personal: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     tip_personal: {
       type: DataTypes.STRING,
@@ -81,6 +85,10 @@ const User = sequelize.define(
     email_user: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     parola_user: {
       type: DataTypes.STRING,
@@ -183,7 +191,7 @@ const FisaMedicala = sequelize.define(
       allowNull: false,
     },
     pdf_fisa_medicala: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     vaccinari: {
@@ -199,6 +207,10 @@ const FisaMedicala = sequelize.define(
       allowNull: false,
     },
     tratamente: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    unitate_invatamant: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -297,7 +309,7 @@ StocMedicamente.belongsTo(CabinetMedical);
 // sterge tabela User
 // User.sync({ force: true });
 
-//FisaMedicala.drop();
+// FisaMedicala.drop();
 
 async function init() {
   await sequelize.authenticate();

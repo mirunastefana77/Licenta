@@ -19,10 +19,6 @@ export const Register = () => {
   const [idCabinet, setIdCabinet] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchCabinete();
-  }, []);
-
   const validatePassword = () => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!passwordRegex.test(password)) {
@@ -44,6 +40,11 @@ export const Register = () => {
       result.json().then((data) => setCabinete(data));
     }
   }
+
+  useEffect(() => {
+    fetchCabinete();
+  }, []);
+
   let item = { scoala, nume, prenume, email, password, rol };
 
   async function checkRegister() {
@@ -61,9 +62,12 @@ export const Register = () => {
   }
 
   async function handleRegister() {
-    if ((await checkRegister()) === true) {
+    const isRegister = await checkRegister();
+    if (isRegister) {
       if (validatePassword()) {
-        if (resultUser.CabinetMedicalIdCabinet === idCabinet) {
+        console.log(resultUser.CabinetMedicalIdCabinet);
+        console.log(idCabinet);
+        if (resultUser && resultUser.CabinetMedicalIdCabinet === idCabinet) {
           if (resultUser.tip_personal === item.rol) {
             let result = await fetch("http://localhost:8088/api/register", {
               method: "POST",
