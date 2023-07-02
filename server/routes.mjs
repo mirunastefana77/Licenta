@@ -24,6 +24,12 @@ import { getElevi } from "./service.mjs";
 import { getFisaMedicala } from "./service.mjs";
 import { getFiseMedicale } from "./service.mjs";
 import { getParinteElev } from "./service.mjs";
+import { getRegistruMedical } from "./service.mjs";
+import { deleteMedicament } from "./service.mjs";
+import { adeverinteMedicale } from "./service.mjs";
+import { getAllElevi } from "./service.mjs";
+import { dropZoneAdeverintaMedicala } from "./service.mjs";
+import { getAllMedicamente } from "./service.mjs";
 
 const router = express.Router();
 router.route("/cabinete").get((req, res) => {
@@ -67,6 +73,24 @@ router.route("/getFiseMedicale").post((req, res) => {
 });
 router.route("/getParinteElev").post((req, res) => {
   getParinteElev(ParinteElev, Elev, req, res);
+});
+router.route("/getRegistruMedical").post((req, res) => {
+  getRegistruMedical(RegistruMedical, CabinetMedical, req, res);
+});
+router.route("/deleteMedicament").delete((req, res) => {
+  deleteMedicament(StocMedicamente, req, res);
+});
+router.route("/adeverinteMedicale").post((req, res) => {
+  adeverinteMedicale(Elev, req, res);
+});
+router.route("/getAllElevi").post((req, res) => {
+  getAllElevi(Elev, CabinetMedical, req, res);
+});
+router.route("/dropZoneAdeverintaMedicala").post((req, res) => {
+  dropZoneAdeverintaMedicala(Elev, req, res);
+});
+router.route("/getAllMedicamente").post((req, res) => {
+  getAllMedicamente(StocMedicamente, CabinetMedical, req, res);
 });
 
 export default router;

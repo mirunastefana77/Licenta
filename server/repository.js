@@ -167,6 +167,10 @@ const Elev = sequelize.define(
       type: DataTypes.DATE,
       allowNull: false,
     },
+    adeverinta_medicala: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     timestamps: false,
@@ -309,7 +313,7 @@ StocMedicamente.belongsTo(CabinetMedical);
 // sterge tabela User
 // User.sync({ force: true });
 
-// FisaMedicala.drop();
+// Elev.drop();
 
 async function init() {
   await sequelize.authenticate();

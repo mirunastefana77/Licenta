@@ -15,6 +15,14 @@ export const FiseMedicale = () => {
   const [idElevi, setIdElevi] = useState([]);
   const userInfo = JSON.parse(localStorage.getItem("user"));
 
+  function isAsistent() {
+    if (userInfo.tip_user === "Asistent") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   async function getFiseAdaugata() {
     let result = await fetch("http://localhost:8088/api/getFiseMedicale", {
       method: "POST",
@@ -73,12 +81,16 @@ export const FiseMedicale = () => {
           Înapoi la pagina principală
         </Button>
       </div>
-      <Button className="btn-info m-2" onClick={adaugaFisaMedicala}>
+      <Button
+        className="btn-info m-2"
+        onClick={adaugaFisaMedicala}
+        disabled={isAsistent()}
+      >
         Adaugă fișă medicală
       </Button>
       <div className={`${styles["form-container"]}`}>
         <div className={`${styles["padding-color"]}`}>
-          <table className="table table-striped">
+          <table className="table table-light">
             <thead>
               <tr>
                 <th>Nume</th>

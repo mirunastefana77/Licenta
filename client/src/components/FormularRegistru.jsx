@@ -71,9 +71,9 @@ export const FormularRegistru = () => {
       }),
     });
     if (result.status === 201) {
-      result.json().then((data) => {
+      await result.json().then((data) => {
         setElevID(data.id_elev);
-        console.log(data.id_elev);
+        console.log(elevID);
       });
     }
   }
@@ -82,20 +82,22 @@ export const FormularRegistru = () => {
     await getElevID();
     console.log(elevID);
     console.log(cabinetID);
+    const item = {
+      nume_elev: nume,
+      prenume_elev: prenume,
+      cnp_elev: CNP,
+      nume_medicament: medicamentSelectat,
+      nr_doza_medicament: doza,
+      CabinetMedicalIdCabinet: cabinetID,
+      ElevIdElev: elevID,
+    };
+
     let result = await fetch("http://localhost:8088/api/adaugaElev", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        nume_elev: nume,
-        prenume_elev: prenume,
-        cnp_elev: CNP,
-        nume_medicament: medicamentSelectat,
-        nr_doza_medicament: doza,
-        CabinetMedicalIdCabinet: cabinetID,
-        ElevIdElev: elevID,
-      }),
+      body: JSON.stringify(item),
     });
     if (result.status === 201) {
       alert("Elev adăugat cu succes!");

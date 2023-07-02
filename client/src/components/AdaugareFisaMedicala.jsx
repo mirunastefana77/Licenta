@@ -129,7 +129,7 @@ export const AdaugareFisaMedicala = () => {
 
       const text = `Elevul/a, ${nume} ${prenume}, cu CNP-ul ${CNP}, este vaccinat/a cu ${vaccinari}. \nSufera de boli: ${boli}. Este alergic/a: ${alergii}. Urmeaza tratamentul: ${tratamente}.\n`;
 
-      const currentDate = new Date().toLocaleDateString("ro-RO");
+      const currentDate = formatDate(new Date());
 
       const userData = `${userInfo.tip_user}, ${userInfo.nume_user} ${userInfo.prenume_user}`;
 

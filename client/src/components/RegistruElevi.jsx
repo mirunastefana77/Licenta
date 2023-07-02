@@ -72,7 +72,7 @@ export const RegistruElevi = () => {
         Adaugă elev în registru
       </Button>
       <div className={`${styles["font-link"]} m-3`}>
-        <table className="table table-striped">
+        <table className="table table-light">
           <thead>
             <tr>
               <th>Nume</th>
@@ -84,6 +84,7 @@ export const RegistruElevi = () => {
           </thead>
           {elevAdaugat?.map((elev) => {
             return (
+              /*console.log(elev)*/
               <tbody key={elev.cnp_elev}>
                 <tr>
                   <td>{elev.nume_elev}</td>

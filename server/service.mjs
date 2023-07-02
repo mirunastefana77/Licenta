@@ -129,6 +129,7 @@ async function getElevID(model, req, res) {
 }
 
 async function adaugaElev(modelRegistru, modelStocMed, req, res) {
+  console.log(req.body);
   const elev = await modelRegistru.create({
     nume_elev: req.body.nume_elev,
     prenume_elev: req.body.prenume_elev,
@@ -270,6 +271,133 @@ async function getParinteElev(modelParinte, modelElev, req, res) {
   }
 }
 
+async function getRegistruMedical(modelReg, modelCabMed, req, res) {
+  try {
+    console.log(req.body.unitate_invatamant);
+    const unitate = await modelCabMed.findOne({
+      where: {
+        unitate_invatamant: req.body.unitate_invatamant,
+      },
+    });
+    if (unitate) {
+      const registru = await modelReg.findAll({
+        where: {
+          CabinetMedicalIdCabinet: unitate.id_cabinet,
+        },
+      });
+      if (registru) {
+        res.status(201).send(registru);
+      } else {
+        res.status(404).send("Not found");
+      }
+    } else {
+      res.status(404).send("Not found unitate");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function deleteMedicament(model, req, res) {
+  const medicament = await model.findOne({
+    where: {
+      id_stoc_medicamente: req.body.id_stoc_medicamente,
+    },
+  });
+  if (medicament) {
+    medicament.destroy();
+    res.status(201).json({ message: "Medicament sters" });
+  } else {
+    res.status(404).send("Not found");
+  }
+}
+
+async function adeverinteMedicale(model, req, res) {
+  const adeverinta = await model.findAll({
+    where: {
+      ElevIdElev: req.body.id_elev,
+    },
+  });
+  if (adeverinta) {
+    res.status(201).send(adeverinta);
+  } else {
+    res.status(404).send("Not found");
+  }
+}
+
+async function getAllElevi(modelElev, modelCab, req, res) {
+  const cabinet = await modelCab.findOne({
+    where: {
+      unitate_invatamant: req.body.unitate_invatamant,
+    },
+  });
+  if (cabinet) {
+    const elevi = await modelElev.findAll({
+      where: {
+        CabinetMedicalIdCabinet: cabinet.id_cabinet,
+      },
+    });
+    if (elevi) {
+      res.status(201).send(elevi);
+    } else {
+      res.status(404).send("Not found");
+    }
+  } else {
+    res.status(404).send("Not found cabinet");
+  }
+}
+
+async function dropZoneAdeverintaMedicala(model, req, res) {
+  const uniqueFilename = new Date().toISOString() + "-" + req.body.pdf;
+  const uploadResult = await client.send(
+    new PutObjectCommand({
+      Bucket: "fisamedicalalicenta",
+      Key: `pdf/${uniqueFilename}`,
+      Body: req.body.base64Pdf,
+      ACL: "public-read",
+      ContentType: "application/pdf",
+    })
+  );
+  if (uploadResult) {
+    const pdfUrl = `https://fisamedicalalicenta.s3.eu-central-1.amazonaws.com/pdf/${uniqueFilename}`;
+    const elev = await model.findOne({
+      where: {
+        id_elev: req.body.id_elev,
+      },
+    });
+    if (elev) {
+      await elev.update({
+        adeverinta_medicala: pdfUrl,
+      });
+      res.status(201).send(elev);
+    }
+  } else {
+    res.status(404).send("Not found pdf");
+  }
+}
+
+async function getAllMedicamente(modelStocMed, modelCabMed, req, res) {
+  const cabinet = await modelCabMed.findOne({
+    where: {
+      unitate_invatamant: req.body.unitate_invatamant,
+    },
+  });
+  if (cabinet) {
+    const medicamente = await modelStocMed.findAll({
+      where: {
+        CabinetMedicalIdCabinet: cabinet.id_cabinet,
+      },
+    });
+    if (medicamente) {
+      res.status(201).send(medicamente);
+    } else {
+      res.status(404).send("Not found");
+    }
+  } else {
+    res.status(404).send("Not found cabinet");
+  }
+}
+
 export {
   getAllCabinete,
   createAccount,
@@ -285,4 +413,10 @@ export {
   getFisaMedicala,
   getFiseMedicale,
   getParinteElev,
+  getRegistruMedical,
+  deleteMedicament,
+  adeverinteMedicale,
+  getAllElevi,
+  dropZoneAdeverintaMedicala,
+  getAllMedicamente,
 };

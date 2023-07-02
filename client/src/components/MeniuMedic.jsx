@@ -46,8 +46,12 @@ export const MeniuMedic = () => {
   }
 
   async function handleDelogare() {
-    // localStorage.removeItem("user");
+    localStorage.removeItem("user");
     navigate("/", { replace: true });
+  }
+
+  async function handleAdeverinteMedicale() {
+    navigate("/adeverinteMedicale", { replace: true });
   }
 
   return (
@@ -61,6 +65,10 @@ export const MeniuMedic = () => {
       <Button className="btn-info mb-4" onClick={handleStocMedicamente}>
         Stoc medicamente{" "}
       </Button>
+      <Button className="btn-info mb-4" onClick={handleAdeverinteMedicale}>
+        Adeverințe medicale
+      </Button>
+
       <Button className="btn-info mb-4" onClick={handleDelogare}>
         Delogare
       </Button>

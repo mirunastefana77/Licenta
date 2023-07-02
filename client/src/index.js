@@ -10,6 +10,9 @@ import { FormularRegistru } from "./components/FormularRegistru";
 import { StocMedicamente } from "./components/StocMedicamente";
 import { FiseMedicale } from "./components/FiseMedicale";
 import { AdaugareFisaMedicala } from "./components/AdaugareFisaMedicala";
+import { AdeverinteMedicale } from "./components/AdeverinteMedicale";
+import DropZoneAdeverintaMedicala from "./components/DropZoneAdeverintaMedicala";
+import { RapoarteGenerale } from "./components/RapoarteGenerale";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -23,6 +26,12 @@ root.render(
       <Route path="/stocMedicamente" element={<StocMedicamente />} />
       <Route path="/fiseMedicale" element={<FiseMedicale />} />
       <Route path="/adaugaFisaMedicala" element={<AdaugareFisaMedicala />} />
+      <Route path="/adeverinteMedicale" element={<AdeverinteMedicale />} />
+      <Route
+        path="/dropZoneAdeverintaMedicala"
+        element={<DropZoneAdeverintaMedicala />}
+      />
+      <Route path="/rapoarteGenerale" element={<RapoarteGenerale />} />
     </Routes>
   </BrowserRouter>
 );

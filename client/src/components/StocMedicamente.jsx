@@ -55,6 +55,24 @@ export const StocMedicamente = () => {
     navigate("/mainPage", { replace: true });
   }
 
+  async function stergeMedicament(id) {
+    let result = await fetch("http://localhost:8088/api/deleteMedicament", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id_stoc_medicamente: id,
+      }),
+    });
+    if (result.status === 201) {
+      getStocMedicamente();
+      alert("Medicamentul a fost șters cu succes!");
+    } else {
+      alert("Medicamentul nu a fost șters!");
+    }
+  }
+
   return (
     <div>
       <h1 className="m-2">Stoc Medicamente</h1>
@@ -93,6 +111,16 @@ export const StocMedicamente = () => {
                       undefined,
                       { year: "numeric", month: "2-digit", day: "2-digit" }
                     )}
+                  </td>
+                  <td>
+                    <Button
+                      className="btn btn-danger"
+                      onClick={() =>
+                        stergeMedicament(medicament.id_stoc_medicamente)
+                      }
+                    >
+                      Șterge
+                    </Button>
                   </td>
                 </tr>
               </tbody>
